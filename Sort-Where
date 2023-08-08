@@ -1,0 +1,58 @@
+
+/* sort */
+
+proc sort data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" out=storm_sort;
+    where Basin in("NA" "na");
+    by descending MaxWindMPH;
+run;
+
+proc print data="/home/u63509593/EPG1V2/data/np_largeparks.sas7bdat" ;
+run;
+
+proc sort data="/home/u63509593/EPG1V2/data/np_largeparks.sas7bdat" out=park_clean nodupkey dupout=park_dups;
+by park_dups;
+run;
+
+proc sort data="/home/u63509593/EPG1V2/data/np_largeparks.sas7bdat" out=park_clean nodupkey dupout=park_dups;
+    by park_dups; /* Replace "park_name" with the actual variable name(s) you want to sort by */
+run;
+
+
+proc sort data="/home/u63509593/EPG1V2/data/np_largeparks.sas7bdat" out=park_clean dupout=park_dups nodupkey;
+by _all_;
+run;
+
+proc print data=pg1.np_summary;
+var Type ParkName;
+*Add a WHERE statement;
+where ParkName='Preserve';
+run;
+
+proc sort data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" ;
+	where North Atlantic Basin=MaxWindMPH;
+	by DESCENDING ;
+run;
+
+proc sort data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" out=storm_sort;
+    where Basin in("NA" "na");
+    by descending MaxWindMPH;
+run;
+
+/* exercise */
+proc sort data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat" out=np_sort ;
+by Reg descending DayVisits; 
+where Type="NP";
+run;
+
+
+*DATE*;
+proc print data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat"(obs=20);
+	format Lat Lon 4. StartDate EndDate date7.;
+run;
+
+proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
+	tables StartDate;
+	*Add a FORMAT statement;
+run;
+
+
