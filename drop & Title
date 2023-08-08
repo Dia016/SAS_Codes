@@ -1,0 +1,13 @@
+data citi;
+set sashelp.citiday;
+proc print data=citi (drop=SNYDJCM SNYSECM);
+run;
+
+title1 "students data";
+proc print data=sashelp.class;
+where sex="M";
+run;title1;
+proc contents data=sashelp.class;
+run;
+
+
