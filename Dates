@@ -1,0 +1,35 @@
+data uf_date;
+format form_date mmddyy10.;
+input form_date;
+datalines;
+112303
+121324
+101599
+;
+run;
+proc print data=uf_date;
+run;
+
+
+
+proc print data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat"(obs=20);
+	format Lat Lon 4. StartDate EndDate date7.;
+run;
+
+proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
+	tables StartDate;
+	*Add a FORMAT statement;
+run;
+
+
+
+proc print data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat"(obs=20);
+	format Lat Lon 4. StartDate EndDate date7.;
+run;
+
+proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
+	tables StartDate;
+	*Add a FORMAT statement;
+run;
+
+
