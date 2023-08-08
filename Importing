@@ -1,0 +1,29 @@
+proc contents
+data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat";
+run;
+libname PG1 base"/home/u63509593/EPG1V2/data";
+run;
+libname NP xlsx"/home/u63509593/EPG1V2/data/np_info.xlsx";
+run;
+
+
+options validvarname=v7;
+proc contents data=NP.parks;
+run;
+libname NP clear;
+
+proc import datafile="/home/u63509593/EPG1V2/data/storm_damage.csv" dbms=csv out=storm_damage_import replace;
+run;
+proc contents data=storm_damage_import;
+run;
+
+proc import datafile="/home/u63509593/EPG1V2/data/eu_sport_trade.xlsx" dbms= xlsx out=eu_sport_trade_import replace;
+run;
+libname mylib xlsx"/home/u63509593/EPG1V2/data/eu_sport_trade.xlsx";
+proc contents data=mylib.sheet1;
+run;
+
+proc import datafile="/home/u63509593/EPG1V2/data/np_traffic.csv" dbms=csv out=np_traffic_import replace;
+run;
+proc contents data=np_traffic_import;
+run;
