@@ -33,3 +33,25 @@ proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
 run;
 
 
+/* date format */
+proc print data="/home/u63509593/EPG1V2/data/storm_damage.sas7bdat";
+format Date mmddyy8. Cost dollar14.;
+run;
+
+
+proc print data="/home/u63509593/EPG1V2/data/storm_damage.sas7bdat";
+format Date mmddyy10. Cost dollar16.;
+run;
+
+proc print data="/home/u63509593/EPG1V2/data/storm_damage.sas7bdat";
+format Date ddmmyy10. Cost dollar16.;
+run;
+
+proc print data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat"(obs=20);
+	format Lat Lon 4. StartDate EndDate date7.;
+run;
+
+proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
+	tables StartDate;
+	*Add a FORMAT statement;
+run;
