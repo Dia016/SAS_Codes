@@ -1,0 +1,44 @@
+/* calculates summary statistics */
+proc means data=sashelp.cars;
+var  MPG_Highway Length Invoice; *must ne numeric*;
+run;
+
+/* examines extereme values */
+proc univariate data=sashelp.cars;
+var  MPG_Highway Length Invoice; *must ne numeric*;
+run;
+
+/* list unique values and freq */
+proc freq data=sashelp.cars;
+tables   DriveTrain Model Type;
+run;
+
+
+
+proc contents
+data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+run;
+
+proc print data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+var Reg Type ParkName DayVisits TentCampers RVCampers;
+run;
+
+proc means data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+var DayVisits TentCampers RVCampers;
+run;
+
+proc univariate data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+var DayVisits TentCampers RVCampers;
+run;
+
+proc freq data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+tables Reg Type;
+run;
+
+proc univariate data="/home/u63509593/EPG1V2/data/np_summary.sas7bdat";
+var Acres ;
+run;
+
+
+
+
