@@ -92,6 +92,35 @@ proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
 run;
 
 
+Data Date_;
+	format Today_ DOB tdy1 tdy2 date9. time_ tm1 tm2 time9.;
+
+	/* format Today_ date9.; */
+	Today_=today();
+	DOB='2AUG2005'd;
+	age=int(yrdif(DOB, Today_));
+	tdy1=mdy(08, 02, 2023);
+	tdy2='03aug2023'd;
+	time_=time();
+	tm1=hms(07, 05, 20);
+	tm2='07:05:20't;
+run;
+proc print data=Date_;
+run;
+
+
+data dt;
+	format today_ date_ mdy_ date9. time_ time9.;
+	today_=today();
+	time_=time();
+	date_='02aug2023'd;
+	mdy_=mdy(08, 02, 2023);
+	yr_dif=yrdif(today_, date_);
+run;
+proc print data=dt;
+run;
+
+
 /* using proc formats */
 proc format lib=pepsi;
 	value $gender "M"='MALE' "F"='FEMALE';
