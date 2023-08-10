@@ -1,3 +1,11 @@
+/*
+data_values						INFORMARt			FROMAT
+14:12:30						time8.				time8.
+02:12:30pm						time10.				timeampm10.
+12dec2003:14:12:23				        datetime18.			datetime18.
+12dec2003:12:12:23:pm			                datetime20.			datetime20.
+*/ 
+
 data uf_date;
 format form_date mmddyy10.;
 input form_date;
@@ -8,6 +16,33 @@ datalines;
 ;
 run;
 proc print data=uf_date;
+run;
+
+
+data dt;
+	input pid drug $  time  :datetime20.;
+	format pid 5. drug $10. time dateampm18.;
+	datalines;
+1234 col15mg  12aug2003:12:23:00pm
+1456 col10mg  13dec2003:09:12:36am 
+;
+run;
+
+proc print data=dt;
+run;
+
+
+data df;
+	input pid jtime :time10. ltime :time8.;
+	format pid jtime timeampm10. ltime timeampm10.;
+	datalines;
+134 02:11:55pm  00:01:00 
+516 05:12:50am  12:06:1
+123 05:12:51am  14:23:54
+;
+run;
+
+proc print data=df;
 run;
 
 
@@ -54,4 +89,24 @@ run;
 proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
 	tables StartDate;
 	*Add a FORMAT statement;
+run;
+
+
+/* using proc formats */
+proc format lib=pepsi;
+	value $gender "M"='MALE' "F"='FEMALE';
+	value age 10 -15=1 16 - 20=2;
+run;
+
+proc format lib=pepsi fmtlib;
+run;
+
+/* Using Titles */
+title1 'usr_d _ format';
+proc print data=SASHELP.class;
+	format Sex $gender. age age.;
+run;
+title1;
+
+proc print data=SASHELP.airline (obs=5);
 run;
