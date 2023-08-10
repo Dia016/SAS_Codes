@@ -1,0 +1,73 @@
+/* do while / do until / do  */
+data invest;
+do year=1 to 30 ;
+i = year+1 ;
+x+2000;
+output ;
+End;
+drop i year;
+Run;
+proc print data=invest;
+run;	
+
+data abs;
+a=1;
+do while(a<=3);
+b=1;
+do while(b<=3); output;
+b=b+1;
+end;
+a=a+1;
+end;
+run;
+proc print data=abs;
+run;
+
+
+data h;
+do i = 1 to 10 ;
+j =  i **2 ;
+output;
+end;
+drop i ;
+run;
+proc print data=h;
+run;
+
+/* PROC TRANSPOSE */
+data mh;
+input pid visit$ dose$ @@;
+datalines;
+101 visit1 Asp-05mg 102 visit1 Asp-10mg 103 visit1 Asp-15mg
+101 visit2 Asp-05mg 102 visit2 Asp-10mg 103 visit2 Asp-15mg
+101 visit3 Asp-05mg 102 visit3 Asp-10mg 103 visit3 Asp-15mg
+;
+proc sort data=mh;
+by visit ;
+run;
+proc transpose data=mh out=mhh ;
+var dose  ;
+by visit ;
+run;
+proc print data=mh;
+run;
+
+proc print data=mhh;
+run;
+data prod_sales;
+input pcode $ m1-m6;
+datalines;
+P101 200 201 230 234 180 230
+P102 210 220 240 250 210 220 
+P102 190 190 180 210 210 230 
+;
+proc sort data=prod_sales ;
+by pcode ;
+run;
+proc transpose data=prod_sales out=ty ;
+by pcode ;
+var m1-m6;
+where pcode = 'P101';
+run;
+proc print data=ty ;
+run;
