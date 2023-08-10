@@ -71,3 +71,28 @@ run;
 
 proc contents data=select;
 run;
+
+
+/* PROC PRINT : LABEL NOOBS  header= split ='' sum by var id */
+/* PROC SORT : BY NODUP NODUPKEY */	
+/* APPEND and MERGE */
+		
+data dup;
+input Pid center $ Year Age;
+datalines ;
+123 appolo 1999 56
+134 nims 1998 60
+123 appolo 1996 56 
+124 nims 1998 60 
+123 appolo 1996 78
+189 care 1689 56
+167 nims 1994 90
+189 care 1997 87	
+;
+proc sort data=dup out=new ;
+by center ;
+run;
+proc print data=new ;
+by center ;
+pageby center ;
+run;
