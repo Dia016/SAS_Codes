@@ -1,0 +1,45 @@
+data citi;
+set sashelp.citiday;
+proc print data=citi (drop=SNYDJCM SNYSECM);
+run;
+
+title1 "students data";
+proc print data=sashelp.class;
+where sex="M";
+run;title1;
+proc contents data=sashelp.class;
+run;
+
+
+	/*
+	Aggrigate functions
+	SUM MEAN MIN MAX STD IQR VAR Q1 <mode>
+	*/
+data aggr (drop=q1-q5);
+	input id q1-q5;
+	sum_=sum(of q1-q5);
+	avg_=mean(of q1-q5);
+	std_=round(std(of q1-q5), .1);
+	min_=min(of q1-q5);
+	max_=max(of q1-q5);
+	var_=round(var(q1, q2, q3, q4, q5), .1);
+	abs_=abs(avg_);
+	sqrt_avg=round(sqrt(avg_), .1);
+	exp_avg=round(exp(avg_), .1);
+	log_avg=round(log(avg_), .2);
+	date=today();
+	datalines;
+1 25 6 7 . 8 
+2 6 89 . 2 7
+3 8 21 . 5 6
+4 7 .  9 . . 
+;
+
+proc print data=aggr noobs;
+	format date date9.;
+	var date;
+	sum sum_ avg_ std_ min_ max_ var_;
+run;
+
+
+
