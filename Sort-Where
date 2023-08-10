@@ -56,3 +56,18 @@ proc freq data="/home/u63509593/EPG1V2/data/storm_summary.sas7bdat" order=freq;
 run;
 
 
+/* dataset options: "keep" "drop" "rename" "where" "firstobs" "obs" "replace" "label" "password" "read" */
+
+proc print data=sashelp.class(obs=20);
+run;
+data select;
+	set SASHELP.CLASS(keep=name age sex rename=(name=student_name 
+		age=student_age));
+	label sex='gender of the students', student_age='age of the students';
+	where student_age > 12;
+run;
+proc print data=select(obs=20);
+run;
+
+proc contents data=select;
+run;
