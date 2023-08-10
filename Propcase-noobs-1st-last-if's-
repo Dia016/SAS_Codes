@@ -1,0 +1,229 @@
+/* propcase*/
+ the PROPCASE function is used to convert strings to "proper case" format. 
+/*Proper case means that the first letter of each word is capitalized, 
+while the rest of the letters are in lowercase.  */
+Data Task1;
+	input Name $ M_Name $ S_Name $;
+	a=Catx(' ', Propcase(Name), Propcase(M_name), Propcase(S_name));
+	b=substr(propcase(name), 1 , 1) ||' '|| substr(M_name, 1, 1) 
+		||' '||substr(s_name, 1, 1);
+	datalines;
+Kamirreddy jagan reddy
+Aditya desh pande
+ankit patel rathod
+arya sakpal
+gayatri patarphekar
+;
+run;
+proc print data=Task1;
+run;
+
+data name;
+	input NAME & $ 25.;
+	a=PROPCASE(NAME);
+	datalines;
+Kamirreddy jagan reddy
+Aditya desh pande
+ankit patel rathod
+arya sakpal
+gayatri patarphekar
+;
+run;
+
+
+/*
+intput : convert char variable in num
+put : convert num variable to char
+*/
+data fg;
+	input value $ @@;
+	num=input(value , 3.);
+	char=put(num , $3.);
+	datalines;
+2 3 5 7 9 8 4 3
+;
+run;
+proc print data=fg;
+run;
+
+
+data new1;
+	input jdate : ddmmyy10.;
+	format jdate date9.;
+	char=put(jdate, $6.);
+	num=input(char, 6.);
+	datalines;
+07/03/2023
+;
+run;
+proc print data=new1;
+run;
+proc contents data=new1;
+run;
+
+/*
+	PROC PRINT : noobs double heading width label(options) sum var id label(statement)
+	split
+	*/
+proc sort data=SASHELP.CLASS out=sorted;
+	by SEX AGE;
+run;
+
+proc print data=sorted label split='_';
+	id AGE;
+	label name='name of the_student';
+	sum _numeric_;
+	by SEX;
+run;
+
+
+	/*
+	PROC PRINT : noobs double heading width label(options) sum var id label(statement)
+	split
+	*/
+proc sort data=SASHELP.CLASS out=sorted;
+	by SEX AGE;
+run;
+
+proc print data=sorted label split='_';
+	id AGE;
+	label name='name of the_student';
+	sum _numeric_;
+	by SEX;
+run;
+
+/*
+proc sort :
+*/
+data dup;
+	input pid center $ year age @@;
+	cards;
+123 appolo 1999 56 124 nims 1998 60 123 appolo 1996 78
+167 nims 1994 89 123 appolo 1999 56 124 nims 1998 60 123 appolo 1996 78
+167 nims 1994 89 
+;
+
+proc sort data=dup nodupkey;
+	by pid;
+run;
+proc print data=dup;
+run;
+
+proc sort data=dup nodup;
+	*(sort by statemnt but check duplicates for entire var);
+	by pid;
+run;
+proc print data=dup;
+run;
+
+data char;
+	input f_name:$upase15. mid_name last_name;
+	datalines;
+kamirreddy jagan reddy
+Aditya desk pander 
+ankit patel rathod
+arya sakpal
+gayatri patarpherkar
+;
+run;
+proc print data=char;
+run;
+
+
+	/*
+	PROC PRINT : LABEL NOOBS  header= split ='' sum by var id
+	PROC SORT : BY NODUP NODUPKEY
+	
+	*/
+	/*
+	APPEND and MERGE
+	*/
+	
+data dup;
+input Pid center $ Year Age;
+datalines ;
+123 appolo 1999 56
+134 nims 1998 60
+123 appolo 1996 56 
+124 nims 1998 60 
+123 appolo 1996 78
+189 care 1689 56
+167 nims 1994 90
+189 care 1997 87	
+;
+	
+proc sort data=dup out=new ;
+by center ;
+run;
+
+proc print data=new ;
+by center ;
+pageby center ;
+run;
+
+
+/* First & Last */
+proc sort data=SASHELP.class out= last ;
+by age ;
+run ;
+data unique_ last_ first_ dummy ;
+set last ;
+by age ;
+* unique occurance ;
+if last.age and first.age then output unique_;
+if last.age then output last_ ;
+if first.age then output first_ ;
+else  output dummy ;
+run;
+proc print data=last_ ;
+title1 'last occurance' ;
+run;title1;
+proc print data=first_;
+title2 ' first occurance' ;
+run; title2;
+proc print data=unique_ ;
+title3 'unique occrance' ;
+run;title3;
+proc print data=dummy ;
+title4 'duplicates';
+run;title4;
+
+
+ 
+/*  WHERE , IF & ESLE / ESLE IF */
+
+data mediate;
+input pid name$ age centre$ sub;
+cards;
+100  kiran 25 appolo 67
+101  kumar 28 nims 98
+102 madhu 25 care 68
+103 .     15 appolo 89
+105 vishnu 32 care 90 
+106 vashm 33  appolo 56
+107 midhie . care 89
+;
+proc print data=mediate ;
+where age between 13 and 25 ;
+where centre in ('appolo', 'care');
+where name LIKE 'm%';
+run;
+proc print data=mediate;
+run;
+
+proc print data=mediate;
+WHERE  missing(age) or  missing(name);
+run;
+
+Data labs;
+input pid week dose @@;
+cards;
+100 4 0.5 101 5 1.0 102 6 1.25 109 7 1.0
+108 9 0.5
+111 3 0.7 113 . 1.0 123 7 0.5 126 7 1.0
+105 3 0.5
+;
+run;
+proc print data=labs;
+run;
+
